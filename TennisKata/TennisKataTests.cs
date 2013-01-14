@@ -43,6 +43,14 @@ namespace TennisKata
 			Assert.That(_tennisGame.GetScore(), Is.EqualTo("player 1 wins"));
 		}
 
+		[Test]
+		public void Player_two_annihilates_player1()
+		{
+			PlayerTwoScoresTimes(4);
+
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("player 2 wins"));
+		}
+
 		private void PlayerOneScoresTimes(int times)
 		{
 			for (int i = 0; i < times; i++)
@@ -69,12 +77,14 @@ namespace TennisKata
 		private const string Fifteen = "fifteen";
 		private const string Thirty = "thirty";
 		private const string Forty = "forty";
-		private const string PlayerOneWins = "player 1 wins";
+		private const string Win = "wins";
 
 		public string GetScore()
 		{
-			if (_playerOneScore == PlayerOneWins)
-				return _playerOneScore;
+			if (_playerOneScore == Win)
+				return "player 1 " + Win;
+			if (_playerTwoScore == Win)
+				return "player 2 " + Win;
 			return FormatScore(_playerOneScore, _playerTwoScore);
 		}
 
@@ -92,7 +102,7 @@ namespace TennisKata
 				case Thirty:
 					return Forty;
 				case Forty:
-					return PlayerOneWins;
+					return Win;
 				default:
 					return Fifteen;
 			}
