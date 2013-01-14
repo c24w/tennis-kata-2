@@ -25,6 +25,14 @@ namespace TennisKata
 			Assert.That(_tennisGame.GetScore(), Is.EqualTo(playerOneExpectedScore + " - love"));
 		}
 
+		[Test]
+		public void Player_one_annihilates_player2()
+		{
+			PlayerOneScoresTimes(4);
+
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("player 1 wins"));
+		}
+
 		private void PlayerOneScoresTimes(int times)
 		{
 			for (int i = 0; i < times; i++)
@@ -36,30 +44,36 @@ namespace TennisKata
 
 	public class TennisGame
 	{
-		private const string Love = "love";
+		private string _playerOneScore = Love;
 		private const string Separator = " - ";
+		private const string Love = "love";
 		private const string Fifteen = "fifteen";
 		private const string Thirty = "thirty";
-		private string _platerOneScore = Love;
 		private const string Forty = "forty";
+		private const string PlayerOneWins = "player 1 wins";
 
 		public string GetScore()
 		{
-			return FormatScore(_platerOneScore, Love);
+			if (_playerOneScore == PlayerOneWins)
+				return _playerOneScore;
+			return FormatScore(_playerOneScore, Love);
 		}
 
 		public void PlayerOneScores()
 		{
-			switch (_platerOneScore)
+			switch (_playerOneScore)
 			{
 				case Fifteen:
-					_platerOneScore = Thirty;
+					_playerOneScore = Thirty;
 					break;
 				case Thirty:
-					_platerOneScore = Forty;
+					_playerOneScore = Forty;
+					break;
+				case Forty:
+					_playerOneScore = PlayerOneWins;
 					break;
 				default:
-					_platerOneScore = Fifteen;
+					_playerOneScore = Fifteen;
 					break;
 			}
 		}
