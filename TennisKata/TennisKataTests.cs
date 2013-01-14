@@ -61,20 +61,21 @@ namespace TennisKata
 
 		public void PlayerOneScores()
 		{
+			_playerOneScore = GetNextScore();
+		}
+
+		private string GetNextScore()
+		{
 			switch (_playerOneScore)
 			{
 				case Fifteen:
-					_playerOneScore = Thirty;
-					break;
+					return Thirty;
 				case Thirty:
-					_playerOneScore = Forty;
-					break;
+					return Forty;
 				case Forty:
-					_playerOneScore = PlayerOneWins;
-					break;
+					return PlayerOneWins;
 				default:
-					_playerOneScore = Fifteen;
-					break;
+					return Fifteen;
 			}
 		}
 
