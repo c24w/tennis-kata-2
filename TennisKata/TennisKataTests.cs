@@ -26,20 +26,41 @@ namespace TennisKata
 
 			Assert.That(_tennisGame.GetScore(), Is.EqualTo("fifteen - love"));
 		}
+
+		[Test]
+		public void Score_should_be_thirty_love_when_player_one_scores_twice()
+		{
+			_tennisGame.PlayerOneScores();
+			_tennisGame.PlayerOneScores();
+
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("thirty - love"));
+		}
 	}
 
 	public class TennisGame
 	{
-		private string _currentScore = "love - love";
+		private const string Love = "love";
+		private const string Separator = " - ";
+		private const string Fifteen = "fifteen";
+		private const string Thirty = "thirty";
+		private string _platerOneScore = Love;
 
 		public string GetScore()
 		{
-			return _currentScore;
+			return FormatScore(_platerOneScore, Love);
 		}
 
 		public void PlayerOneScores()
 		{
-			_currentScore = "fifteen - love";
+			if (_platerOneScore == Fifteen)
+				_platerOneScore = Thirty;
+			else
+				_platerOneScore = Fifteen;
+		}
+
+		string FormatScore(string scoreA, string scoreB)
+		{
+			return scoreA + Separator + scoreB;
 		}
 	}
 }
