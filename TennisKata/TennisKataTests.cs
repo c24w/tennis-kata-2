@@ -14,26 +14,23 @@ namespace TennisKata
 		}
 
 		[Test]
-		public void Tennis_game_should_start_at_love_love()
+		[TestCase(0, "love")]
+		[TestCase(1, "fifteen")]
+		[TestCase(2, "thirty")]
+		[TestCase(3, "forty")]
+		public void Tennis_game_returns_the_expected_score_for_player_one_scoring_n_times(int playerOneScoresTimes, string playerOneExpectedScore)
 		{
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo("love - love"));
+			PlayerOneScoresTimes(playerOneScoresTimes);
+
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo(playerOneExpectedScore + " - love"));
 		}
 
-		[Test]
-		public void Score_should_be_fifteen_love_when_player_one_scores()
+		private void PlayerOneScoresTimes(int times)
 		{
-			_tennisGame.PlayerOneScores();
-
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo("fifteen - love"));
-		}
-
-		[Test]
-		public void Score_should_be_thirty_love_when_player_one_scores_twice()
-		{
-			_tennisGame.PlayerOneScores();
-			_tennisGame.PlayerOneScores();
-
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo("thirty - love"));
+			for (int i = 0; i < times; i++)
+			{
+				_tennisGame.PlayerOneScores();
+			}
 		}
 	}
 
@@ -44,6 +41,7 @@ namespace TennisKata
 		private const string Fifteen = "fifteen";
 		private const string Thirty = "thirty";
 		private string _platerOneScore = Love;
+		private const string Forty = "forty";
 
 		public string GetScore()
 		{
@@ -52,10 +50,18 @@ namespace TennisKata
 
 		public void PlayerOneScores()
 		{
-			if (_platerOneScore == Fifteen)
-				_platerOneScore = Thirty;
-			else
-				_platerOneScore = Fifteen;
+			switch (_platerOneScore)
+			{
+				case Fifteen:
+					_platerOneScore = Thirty;
+					break;
+				case Thirty:
+					_platerOneScore = Forty;
+					break;
+				default:
+					_platerOneScore = Fifteen;
+					break;
+			}
 		}
 
 		string FormatScore(string scoreA, string scoreB)
