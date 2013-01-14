@@ -1,0 +1,7 @@
+C:\work\TennisKata\TennisKata\bin\Debug\TennisKata.dll
+C:\work\TennisKata\TennisKata\bin\Debug\TennisKata.pdb
+C:\work\TennisKata\TennisKata\bin\Debug\nunit.framework.dll
+C:\work\TennisKata\TennisKata\bin\Debug\nunit.framework.xml
+C:\work\TennisKata\TennisKata\obj\Debug\TennisKata.csprojResolveAssemblyReference.cache
+C:\work\TennisKata\TennisKata\obj\Debug\TennisKata.dll
+C:\work\TennisKata\TennisKata\obj\Debug\TennisKata.pdb
