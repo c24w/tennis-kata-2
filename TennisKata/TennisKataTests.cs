@@ -27,6 +27,7 @@ namespace TennisKata
 		[TestCase(0, "love")]
 		[TestCase(1, "fifteen")]
 		[TestCase(2, "thirty")]
+		[TestCase(3, "forty")]
 		public void Tennis_game_returns_the_expected_score_for_player_two_scoring_n_times(int playerTwoScoresTimes, string playerTwoExpectedScore)
 		{
 			PlayerTwoScoresTimes(playerTwoScoresTimes);
@@ -79,12 +80,12 @@ namespace TennisKata
 
 		public void PlayerOneScores()
 		{
-			_playerOneScore = GetNextScore();
+			_playerOneScore = GetNextScore(_playerOneScore);
 		}
 
-		private string GetNextScore()
+		private string GetNextScore(string currentScore)
 		{
-			switch (_playerOneScore)
+			switch (currentScore)
 			{
 				case Fifteen:
 					return Thirty;
@@ -104,9 +105,7 @@ namespace TennisKata
 
 		public void PlayerTwoScores()
 		{
-			if (_playerTwoScore == Fifteen)
-				_playerTwoScore = Thirty;
-			else _playerTwoScore = Fifteen;
+			_playerTwoScore = GetNextScore(_playerTwoScore);
 		}
 	}
 }
