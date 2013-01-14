@@ -13,7 +13,6 @@ namespace TennisKata
 			_tennisGame = new TennisGame();
 		}
 
-		[Test]
 		[TestCase(0, "love")]
 		[TestCase(1, "fifteen")]
 		[TestCase(2, "thirty")]
@@ -23,6 +22,15 @@ namespace TennisKata
 			PlayerOneScoresTimes(playerOneScoresTimes);
 
 			Assert.That(_tennisGame.GetScore(), Is.EqualTo(playerOneExpectedScore + " - love"));
+		}
+
+		[TestCase(0, "love")]
+		[TestCase(1, "fifteen")]
+		public void Tennis_game_returns_the_expected_score_for_player_two_scoring_n_times(int playerTwoScoresTimes, string playerTwoExpectedScore)
+		{
+			PlayerTwoScoresTimes(playerTwoScoresTimes);
+
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("love - " + playerTwoExpectedScore));
 		}
 
 		[Test]
@@ -40,11 +48,20 @@ namespace TennisKata
 				_tennisGame.PlayerOneScores();
 			}
 		}
+
+		private void PlayerTwoScoresTimes(int times)
+		{
+			for (int i = 0; i < times; i++)
+			{
+				_tennisGame.PlayerTwoScores();
+			}
+		}
 	}
 
 	public class TennisGame
 	{
 		private string _playerOneScore = Love;
+		private string _playerTwoScore = Love;
 		private const string Separator = " - ";
 		private const string Love = "love";
 		private const string Fifteen = "fifteen";
@@ -56,7 +73,7 @@ namespace TennisKata
 		{
 			if (_playerOneScore == PlayerOneWins)
 				return _playerOneScore;
-			return FormatScore(_playerOneScore, Love);
+			return FormatScore(_playerOneScore, _playerTwoScore);
 		}
 
 		public void PlayerOneScores()
@@ -82,6 +99,11 @@ namespace TennisKata
 		string FormatScore(string scoreA, string scoreB)
 		{
 			return scoreA + Separator + scoreB;
+		}
+
+		public void PlayerTwoScores()
+		{
+			_playerTwoScore = Fifteen;
 		}
 	}
 }
