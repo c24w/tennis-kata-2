@@ -13,7 +13,6 @@ namespace TennisKata
 			_tennisGame = new TennisGame();
 		}
 
-		[TestCase(0, "Love")]
 		[TestCase(1, "Fifteen")]
 		[TestCase(2, "Thirty")]
 		[TestCase(3, "Forty")]
@@ -24,7 +23,6 @@ namespace TennisKata
 			Assert.That(_tennisGame.GetScore(), Is.EqualTo(playerOneExpectedScore + " - Love"));
 		}
 
-		[TestCase(0, "Love")]
 		[TestCase(1, "Fifteen")]
 		[TestCase(2, "Thirty")]
 		[TestCase(3, "Forty")]
@@ -49,6 +47,16 @@ namespace TennisKata
 			PlayerTwoScoresTimes(4);
 
 			Assert.That(_tennisGame.GetScore(), Is.EqualTo("Game player 2"));
+		}
+
+		[TestCase(0, "Love")]
+		[TestCase(1, "Fifteen")]
+		public void Tennis_game_returns_the_expected_score_for_fifteen_all(int pointsEach, string expectedScore)
+		{
+			PlayerOneScoresTimes(pointsEach);
+			PlayerTwoScoresTimes(pointsEach);
+
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo(expectedScore + " all"));
 		}
 
 		private void PlayerOneScoresTimes(int times)
@@ -89,8 +97,12 @@ namespace TennisKata
 				return Scores.Game + " player 1";
 			if (_playerTwoScore == Scores.Game)
 				return Scores.Game + " player 2";
-			return FormatScore(_playerOneScore, _playerTwoScore);
+			if (_playerOneScore == _playerTwoScore)
+				return _playerOneScore + " all";
+			return _playerOneScore + Separator + _playerTwoScore;
 		}
+
+
 
 		public void PlayerOneScores()
 		{
@@ -115,11 +127,6 @@ namespace TennisKata
 				default:
 					return Scores.Fifteen;
 			}
-		}
-
-		string FormatScore(Scores scoreA, Scores scoreB)
-		{
-			return scoreA + Separator + scoreB;
 		}
 	}
 }
