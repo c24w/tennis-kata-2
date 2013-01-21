@@ -13,26 +13,26 @@ namespace TennisKata
 			_tennisGame = new TennisGame();
 		}
 
-		[TestCase(0, "love")]
-		[TestCase(1, "fifteen")]
-		[TestCase(2, "thirty")]
-		[TestCase(3, "forty")]
+		[TestCase(0, "Love")]
+		[TestCase(1, "Fifteen")]
+		[TestCase(2, "Thirty")]
+		[TestCase(3, "Forty")]
 		public void Tennis_game_returns_the_expected_score_for_player_one_scoring_n_times(int playerOneScoresTimes, string playerOneExpectedScore)
 		{
 			PlayerOneScoresTimes(playerOneScoresTimes);
 
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo(playerOneExpectedScore + " - love"));
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo(playerOneExpectedScore + " - Love"));
 		}
 
-		[TestCase(0, "love")]
-		[TestCase(1, "fifteen")]
-		[TestCase(2, "thirty")]
-		[TestCase(3, "forty")]
+		[TestCase(0, "Love")]
+		[TestCase(1, "Fifteen")]
+		[TestCase(2, "Thirty")]
+		[TestCase(3, "Forty")]
 		public void Tennis_game_returns_the_expected_score_for_player_two_scoring_n_times(int playerTwoScoresTimes, string playerTwoExpectedScore)
 		{
 			PlayerTwoScoresTimes(playerTwoScoresTimes);
 
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo("love - " + playerTwoExpectedScore));
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("Love - " + playerTwoExpectedScore));
 		}
 
 		[Test]
@@ -40,7 +40,7 @@ namespace TennisKata
 		{
 			PlayerOneScoresTimes(4);
 
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo("player 1 wins"));
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("Game player 1"));
 		}
 
 		[Test]
@@ -48,7 +48,7 @@ namespace TennisKata
 		{
 			PlayerTwoScoresTimes(4);
 
-			Assert.That(_tennisGame.GetScore(), Is.EqualTo("player 2 wins"));
+			Assert.That(_tennisGame.GetScore(), Is.EqualTo("Game player 2"));
 		}
 
 		private void PlayerOneScoresTimes(int times)
@@ -68,23 +68,27 @@ namespace TennisKata
 		}
 	}
 
+	public enum Scores
+	{
+		Love,
+		Fifteen,
+		Thirty,
+		Forty,
+		Game
+	}
+
 	public class TennisGame
 	{
-		private string _playerOneScore = Love;
-		private string _playerTwoScore = Love;
+		private Scores _playerOneScore = Scores.Love;
+		private Scores _playerTwoScore = Scores.Love;
 		private const string Separator = " - ";
-		private const string Love = "love";
-		private const string Fifteen = "fifteen";
-		private const string Thirty = "thirty";
-		private const string Forty = "forty";
-		private const string Win = "wins";
 
 		public string GetScore()
 		{
-			if (_playerOneScore == Win)
-				return "player 1 " + Win;
-			if (_playerTwoScore == Win)
-				return "player 2 " + Win;
+			if (_playerOneScore == Scores.Game)
+				return Scores.Game + " player 1";
+			if (_playerTwoScore == Scores.Game)
+				return Scores.Game + " player 2";
 			return FormatScore(_playerOneScore, _playerTwoScore);
 		}
 
@@ -93,29 +97,29 @@ namespace TennisKata
 			_playerOneScore = GetNextScore(_playerOneScore);
 		}
 
-		private string GetNextScore(string currentScore)
-		{
-			switch (currentScore)
-			{
-				case Fifteen:
-					return Thirty;
-				case Thirty:
-					return Forty;
-				case Forty:
-					return Win;
-				default:
-					return Fifteen;
-			}
-		}
-
-		string FormatScore(string scoreA, string scoreB)
-		{
-			return scoreA + Separator + scoreB;
-		}
-
 		public void PlayerTwoScores()
 		{
 			_playerTwoScore = GetNextScore(_playerTwoScore);
+		}
+
+		private Scores GetNextScore(Scores currentScore)
+		{
+			switch (currentScore)
+			{
+				case Scores.Fifteen:
+					return Scores.Thirty;
+				case Scores.Thirty:
+					return Scores.Forty;
+				case Scores.Forty:
+					return Scores.Game;
+				default:
+					return Scores.Fifteen;
+			}
+		}
+
+		string FormatScore(Scores scoreA, Scores scoreB)
+		{
+			return scoreA + Separator + scoreB;
 		}
 	}
 }
