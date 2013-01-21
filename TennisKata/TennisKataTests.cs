@@ -109,7 +109,7 @@ namespace TennisKata
 				return Scores.Game + " player 2";
 			if (IsDeuce())
 				return "Deuce";
-			if (ScoresAreEqualBeforeDeuce())
+			if (ScoresAreEqual())
 				return _playerOneScore + " all";
 			return _playerOneScore + Separator + _playerTwoScore;
 		}
@@ -119,35 +119,20 @@ namespace TennisKata
 			return _playerOneScore == Scores.Forty && _playerTwoScore == Scores.Forty;
 		}
 
-		private bool ScoresAreEqualBeforeDeuce()
+		private bool ScoresAreEqual()
 		{
-			return _playerOneScore == _playerTwoScore && _playerOneScore != Scores.Forty;
+			return _playerOneScore == _playerTwoScore;
 		}
 
 
 		public void PlayerOneScores()
 		{
-			_playerOneScore = GetNextScore(_playerOneScore);
+			_playerOneScore++;
 		}
 
 		public void PlayerTwoScores()
 		{
-			_playerTwoScore = GetNextScore(_playerTwoScore);
-		}
-
-		private Scores GetNextScore(Scores currentScore)
-		{
-			switch (currentScore)
-			{
-				case Scores.Fifteen:
-					return Scores.Thirty;
-				case Scores.Thirty:
-					return Scores.Forty;
-				case Scores.Forty:
-					return Scores.Game;
-				default:
-					return Scores.Fifteen;
-			}
+			_playerTwoScore++;
 		}
 	}
 }
